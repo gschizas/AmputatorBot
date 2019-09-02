@@ -2,12 +2,18 @@ import logging
 import os
 from random import choice
 
+user_agents = None
+
 
 def random_headers():
     # Get randomized user agent, set default accept and request English page
     # This is done to prevent 403 errors.
+    global user_agents
+    if not user_agents:
+        with open('user_agents.txt', 'r') as f:
+            agents = f.readlines()
     return {
-        'User-Agent': choice(config.headers),
+        'User-Agent': choice(user_agents),
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'en-US'
     }
