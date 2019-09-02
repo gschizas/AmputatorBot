@@ -16,7 +16,7 @@ from bs4 import BeautifulSoup
 from random import choice
 import requests
 import praw
-import config
+from bot_framework.praw_wrapper import praw_wrapper
 import os
 import re
 import traceback
@@ -28,18 +28,6 @@ logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s:%(levelname)s:%(message)s"
 )
-
-# Login to Reddit API using Praw.
-# Reads configuration details out of config.py (not public)
-def bot_login():
-    logging.debug("Logging in..")
-    r = praw.Reddit(username=config.username,
-                    password=config.password,
-                    client_id=config.client_id,
-                    client_secret=config.client_secret,
-                    user_agent="eu.pythoneverywhere.com:AmputatorBot:v1.4 (by /u/Killed_Mufasa)")
-    logging.debug("Successfully logged in!\n")
-    return r
 
 
 def random_headers():
@@ -368,7 +356,7 @@ def get_saved_mentions_unabletos():
 
 
 # Uses these functions to run the bot
-r = bot_login()
+r = praw_wrapper(user_agent="eu.pythoneverywhere.com:AmputatorBot:v1.4 (by /u/Killed_Mufasa)")
 forbidden_subreddits = get_forbidden_subreddits()
 mentions_replied_to = get_saved_mentions_repliedtos()
 mentions_unable_to_reply = get_saved_mentions_unabletos()
