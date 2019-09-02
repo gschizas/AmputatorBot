@@ -23,32 +23,13 @@ import traceback
 import logging
 
 # Configure logging
+from common import random_headers, contains_amp_url
+
 logging.basicConfig(
     filename="v1.4_check_mentions.log",
     level=logging.DEBUG,
     format="%(asctime)s:%(levelname)s:%(message)s"
 )
-
-
-def random_headers():
-    # Get randomized user agent, set default accept and request English page
-    # This is done to prevent 403 errors.
-    return {
-        'User-Agent': choice(config.headers),
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'en-US'
-    }
-
-
-def contains_amp_url(string_to_check):
-    # If the string contains an AMP link, return True
-    if "/amp" in string_to_check or "amp/" in string_to_check or ".amp" in string_to_check or "amp." in string_to_check or "?amp" in string_to_check or "amp?" in string_to_check or "=amp" in string_to_check or "amp=" in string_to_check and "https://" in string_to_check:
-        string_contains_amp_url = True
-        return string_contains_amp_url
-
-    # If no AMP link was found in the string, return False
-    string_contains_amp_url = False
-    return string_contains_amp_url
 
 
 # Main function. Gets the inbox stream, filters for mentions,
